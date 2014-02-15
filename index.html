@@ -136,11 +136,37 @@
                 msg_str = message.replace(re, '+');
 
                 var key = "k6sTu56WlU39YVOkfZLpG2Odb48";
-                var url = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&version=1.01";
+                var URL = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&output=json&version=1.01";
 
-                $.get(url, function(data) {
+                $.ajax({
+                  type: "GET",
+                  dataType: "json",
+                  url: URL,
+                  data: "",
+                  contentType: 'application/json; charset=utf-8',
+                  success: function(data) {
+                    // data = JSON.parse(data);
+                    alert("success");
+                    alert("data: " + data.toString());
+                    var results = ""
+                    $.each(data, function(key, val) {
+                      results = results + key + ": " + val + "\n";
+                    });
+                    alert("results: " + results);
+
+                    // do stuff with the mood
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                    alert(textStatus, errorThrown);
+                  }
+                });
+
+                /*
+                $.getJSON(url, function(data) {
                     var array = data;
                     var mood = array[0];
+
+                    // var obj = jQuery.parseJSON();
                     var array_str = array.toString();
                     var mood_str = mood.toString();
                     alert("mood_str: " + mood_str);
@@ -148,6 +174,7 @@
                     // do stuff with the mood
                   }
                 );
+                */
 
                 /*
                 initRdio();
@@ -188,8 +215,9 @@
                 
                 $('#pauseButton').click(function() {
                     alert("pause button called");
-                    apiswf.rdio_play($('#play_key').val());
+                    $('#player').rdio().pause();
                 });
+
             </script>
 
         </div>
