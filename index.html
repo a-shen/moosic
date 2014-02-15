@@ -38,30 +38,25 @@
     <script>   
         $.ui.autoLaunch = false; 
         $.ui.backButtonText = "Back";
-        alert("js started");
     
         $(document).ready(function(){
-            alert("document ready");
             $.ui.launch();
             // setup signin and signup button events
             $("#login").on("click", function(){
-                alert("login clicked!!");
                 signIn();
             });
         });
                 
         function signIn(){
-            alert("signing in");
-            $.ajaxSetup({ cache: true });
-            $.getScript('//connect.facebook.net/en_UK/all.js', function(){
-              FB.init({
-                appId: '714007508644402',
-              });
-              $('#login,#feedbutton').removeAttr('disabled');
-              FB.getLoginStatus(updateStatusCallback);
-            });
-            $.ajaxSetup({}
-            // $.ui.loadContent("main", null, null, "fade");
+            // sigin code here
+            $.ui.loadContent("main", null, null, "fade");
+//            document.addEventListener("intel.xdk.facebook.login",function(e){ 
+//                if (e.success == true) { 
+//                    console.log("Facebook Log in Successful"); } 
+//                else{ 
+//                    console.log("Unsuccessful Login"); } 
+//            },false); 
+//            intel.xdk.facebook.login("publish_stream,publish_actions,offline_access"); 
         }
                 
         function signUp(){
@@ -113,7 +108,7 @@
             <div style="text-align:center">
             <br>
             <br>
-            <p>Congrats, you're logged in!</p>
+            <p>Please log in to Facebook with your account information</p>
             <br>
             <br>
             </div>
@@ -123,9 +118,12 @@
         </div>
         
         <!-- Main App View -->
-        <div class="panel" title="Start" id="main" data-load="startApp">
-            <p>Mood music: your moosic</p>
+        <div class="panel" title="Your moosic choice" id="main" data-load="startApp">
+            <p>Your projected mood is:</p>
             <center>
+            <p>We suggest this song for your mood.</p>
+                
+                
             <img src="img/play.png" id="playButton" class="playerBtn">
             <img src="img/pause.png" id="pauseButton" class="playerBtn">
         </div>
