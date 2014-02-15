@@ -123,11 +123,8 @@
             <script type="text/javascript" charset="utf-8" src="xhr.js"></script>      
             <script type="application/javascript" src="app_framework/appframework.min.js"></script>
             <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
+            <script type="application/javascript" src="js/jquery.rdio.js"></script>
 
-            <p>Your projected mood is:</p>
-            <center>
-            <p>We suggest this song for your mood.</p>
-                
             <script>
               $(document).ready(function(){
                 var message = "I'm at PennApps and extremely sleep deprived.";
@@ -162,25 +159,37 @@
               }
             </script>
                 
-            <img src="img/play.png" id="playButton" class="playerBtn">
-            <img src="img/pause.png" id="pauseButton" class="playerBtn">
+            <div id="player">
+              <img src="img/play.png" id="playButton" class="playerBtn">
+              <img src="img/pause.png" id="pauseButton" class="playerBtn">
+            </div>
                 
             
             <script>
-//              $("#playButton").click(function() {
-//                  alert("Handler for .click() called.");
-//              });
+                $("#playButton").click(function() {
+                    alert("play button called");
+
+                    var key = "k6sTu56WlU39YVOkfZLpG2Odb48";
+                    var url = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&version=1.01";  // TODO UPDATE URL
+
+                    $.get(url, function(data) {
+                        var array = data;
+                        var mood = array[0];
+                        var array_str = array.toString();
+                        var mood_str = mood.toString();
+                        alert("mood_str: " + mood_str);
+                        alert("array_str: " + array_str);
+                        // do stuff with the mood
+                      }
+                    );
+
+                    $('#player').rdio().play(songId);
+                });
                 
-            // set up the controls
-            
-              $('#play').click(function() {
-                apiswf.rdio_play($('#play_key').val());
-              });
-              $('#stop').click(function() { apiswf.rdio_stop(); });
-              $('#pause').click(function() { apiswf.rdio_pause(); });
-              $('#previous').click(function() { apiswf.rdio_previous(); });
-              $('#next').click(function() { apiswf.rdio_next(); });
-            });
+                $('#pauseButton').click(function() {
+                    alert("pause button called");
+                    apiswf.rdio_play($('#play_key').val());
+                });
             </script>
 
         </div>
