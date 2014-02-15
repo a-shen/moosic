@@ -127,7 +127,7 @@
 
             <script>
               $(document).ready(function(){
-                var message = "I'm at PennApps and extremely sleep deprived.";
+                var message = "My boyfriend just dumped me on valentine's day :'(";
                 alert("message: " + message);
 
                 // replace all spaces in the message with plus signs
@@ -145,14 +145,25 @@
                   data: "",
                   contentType: 'application/json; charset=utf-8',
                   success: function(data) {
-                    // data = JSON.parse(data);
                     alert("success");
-                    alert("data: " + data.toString());
-                    var results = ""
+                    var mood = "happy";
                     $.each(data, function(key, val) {
-                      results = results + key + ": " + val + "\n";
+                      if (key === "cls1") {  // val = (prob of happy, prob of upset)
+                        var p_happy = -1;
+                        $.each(val, function(k, v) {
+                          if (p_happy < 0) {
+                            p_happy = v;
+                          }
+                        });
+                        if (p_happy < 0.5) {
+                          mood = "sad";
+                        }
+                      }
                     });
-                    alert("results: " + results);
+                    alert("mood: " + mood);
+
+                    //var obj = $.parseJSON(data);
+                    //alert( obj.toString() );
 
                     // do stuff with the mood
                   },
@@ -160,25 +171,6 @@
                     alert(textStatus, errorThrown);
                   }
                 });
-
-                /*
-                $.getJSON(url, function(data) {
-                    var array = data;
-                    var mood = array[0];
-
-                    // var obj = jQuery.parseJSON();
-                    var array_str = array.toString();
-                    var mood_str = mood.toString();
-                    alert("mood_str: " + mood_str);
-                    alert("array_str: " + array_str);
-                    // do stuff with the mood
-                  }
-                );
-                */
-
-                /*
-                initRdio();
-                */
               });
 
               function initRdio() {
@@ -197,9 +189,15 @@
                     alert("play button called");
 
                     var key = "k6sTu56WlU39YVOkfZLpG2Odb48";
-                    var url = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&version=1.01";  // TODO UPDATE URL
+                    var URL = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&version=1.01";  // TODO UPDATE URL
 
-                    $.get(url, function(data) {
+                    $.ajax({
+                      type: "GET",
+                      dataType: "json",
+                      url: URL,
+                      data: "",
+                      contentType: 'application/json; charset=utf-8',
+                      success: function(data) {
                         var array = data;
                         var mood = array[0];
                         var array_str = array.toString();
