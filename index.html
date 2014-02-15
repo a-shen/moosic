@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <!--
-      Include xhr.js in your index.html when using web services that make cross origin requests
-      This file makes those requests successfully when testing your apps under the "EMULATE" & "TEST" tab with the 
-      Intel(R) App Preview mobile app.
-  -->
 
   <head>
+    <!-- Basic stuff -->    
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="app_framework/css/af.ui.min.css">
     <link rel="stylesheet" type="text/css" href="app_framework/css/icons.min.css">
     <link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
     <link rel="stylesheet" type="text/css" href="css/mashery.css">
+    <link rel="stylesheet" type="text/css" href="css/moosic.css">
     <title>Moosic</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;">
@@ -21,115 +18,105 @@
               input, textarea  { -webkit-user-select:text; }
     </style>
     <script src="intelxdk.js"></script>
-    <!--
-      Include xhr.js in your index.html when using web services that make cross origin requests
-      This file makes those requests successfully when testing your apps under the "EMULATE" & "TEST" tab with the 
-      Intel(R) App Preview mobile app.
-  -->
-    <script type="text/javascript" charset="utf-8" src="xhr.js"></script>
-    <script type="text/javascript" language="javascript">
-      function onDeviceReady() {
-              	// Hide splash screen now that the app is ready to run
-              	intel.xdk.device.hideSplashScreen();
-                  
-                  setTimeout(function () {
-                      $.ui.launch();
-                  }, 50);
-                  checkKeyValidity();
-              }
-              // Initial event handler to detect when Intel library is ready to roll
-              document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
-    </script>
+    <script type="text/javascript" charset="utf-8" src="xhr.js"></script>      
     <script type="application/javascript" src="app_framework/appframework.min.js"></script>
     <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
-    <script type="text/javascript" src="js/rdio.js"></script>
+      
+      <!-- Required if packaging to native app using Intel XDK -->    
+    <script src="intelxdk.js"></script>
+    <script src="xhr.js"></script>
+    <script>    
+        function onDeviceReady(){ 
+            $.ui.launch();
+            intel.xdk.device.hideSplashScreen();
+        }
+        document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
+    </script>
+    <!-- End basic stuff -->    
+
+      
+    <script>   
+        $.ui.autoLaunch = false; 
+        $.ui.backButtonText = "Back";
+    
+        $(document).ready(function(){
+            $.ui.launch();
+            // setup signin and signup button events
+            $("#login").on("click", function(){
+                signIn();
+            });
+        });
+                
+        function signIn(){
+            // sigin code here
+            $.ui.loadContent("main", null, null, "fade");
+        }
+                
+        function signUp(){
+            // signup code here
+            $.ui.loadContent("main", null, null, "fade");
+        }   
+                
+        function startApp(){
+            // clears all back button history
+            $.ui.clearHistory();  
+            // your app code here
+        }
+    </script>   
   </head>
-
-  <body id="afui">
-
-
-    <div class="uwrap" id="content">
-      <div class="upage panel" id="page0" data-header="af-header-0" data-footer="none">
-        <div class="upage-outer">
-          <header class="af-header container-group inner-element uib_w_1" data-uib="app_framework/header" id="af-header-0">
-            <h1>Moosic</h1>
-            <div class="widget-container wrapping-col single-centered"></div>
-            <div class="widget-container content-area horiz-area wrapping-col left"></div>
-            <div class="widget-container content-area horiz-area wrapping-col right"></div>
-          </header>
-          <div class="upage-content" id="page_18_16">
-            <div class="grid grid-pad urow uib_row_2 row-height-2" data-uib="layout/row">
-              <div class="col uib_col_3 col-0_6-12" data-uib="layout/col">
-                <div class="widget-container content-area vertical-col">
-                  <div class="widget uib_w_3 scale-image" data-uib="media/img">
-                    <figure class="figure-align">
-                      <img src="http://cdn3.rd.io/user/press/rdio-logo-thumb.png" id="rdiologo">
-                      <figcaption data-position="bottom"></figcaption>
-                    </figure>
-                  </div>
-                  <span class="uib_shim"></span>
-                </div>
-              </div>
-              <div class="col uib_col_2 col-0_6-12" data-uib="layout/col">
-                <div class="widget-container content-area wrapping-col right">
-                  <div class="widget uib_w_4 scale-image d-margins mashery-img-margins" data-uib="media/img">
-                    <figure class="figure-align">
-                      <img src="http://content.developer.mashery.com.s3.amazonaws.com/xdk-demos/masherymade.png" id="logo2">
-
-                      <figcaption data-position="bottom"></figcaption>
-                    </figure>
-                  </div>
-                  <span class="uib_shim"></span>
-                </div>
-              </div>
-              <span class="uib_shim"></span>
-            </div>
-            <div class="grid grid-pad urow uib_row_3 row-height-3" data-uib="layout/row">
-              <div class="col uib_col_4 col-0_12-12" data-uib="layout/col">
-                <div class="widget-container content-area vertical-col">
-                  <div class="widget uib_w_5" data-uib="media/text">
-                    <div class="widget-container left-receptacle"></div>
-                    <div class="widget-container right-receptacle"></div>
-                    <div>
-                      <p>Welcome to Moosic!</p>
-                    </div>
-                  </div>
-                  <span class="uib_shim"></span>
-                </div>
-              </div>
-              <span class="uib_shim"></span>
-            </div>
-            <div class="grid urow uib_row_4 row-height-4 btns-padding" data-uib="layout/row">
-              <div class="col uib_col_5 col-0_6-12" data-uib="layout/col">
-                <div class="widget-container content-area vertical-col">
-                  <a class="button widget uib_w_6 d-margins" data-uib="app_framework/button" id="openingmovies_btn" onclick="javascript:fetchOpeningMovies();">Connect to Facebook</a>
-                </div>
-              </div>
-              <div class="col uib_col_7 col-0_6-12" data-uib="layout/col">
-                <div class="widget-container content-area vertical-col">
-                  <a class="button widget uib_w_7 d-margins" data-uib="app_framework/button" id="topdvdrent_btn" onclick="javascript:fetchTopRentals();">Top DVD Rentals</a>
-                </div>
-              </div>
-              <span class="uib_shim"></span>
-            </div>
-            <div class="grid grid-pad urow uib_row_5 row-height-5" data-uib="layout/row">
-              <div class="col uib_col_6 col-0_12-12" data-uib="layout/col">
-                <div class="widget-container content-area vertical-col">
-                  <div id="rottentomatoes-results-output">
-                  </div>
-                  <span class="uib_shim"></span>
-                </div>
-              </div>
-              <span class="uib_shim"></span>
-            </div>
-          </div>
-          <!-- /upage-content -->
+    
+              
+<body> 
+<div id="afui">
+    
+    <div id="content" style=""> 
+        
+    <!-- Views -->
+        
+        <!-- Welcome View -->
+        <div class="panel" title="Welcome" id="page1" data-header="none" data-footer="none" selected="true">
+            <div style="text-align:center">
+            <br>
+            <br>
+            <h1>Welcome to Moosic!</h1>
+            <br>
+            <br>
+            <h6>Powered by:</h6>
+            <img src="http://cdn3.rd.io/user/press/rdio-logo-thumb.png" id="rdiologo" class="logo">
+            <img src="http://content.developer.mashery.com.s3.amazonaws.com/xdk-demos/masherymade.png" id="masherylogo" class="logo">
+            <img src="http://xdk-software.intel.com/images/intel_xdk_logo.png" id="masherylogo" class="logo">
+            <br>
+            <br>
+            <p>Moosic will detect how your feeling based on your latest Facebook status update and stream the perfect music to match your mood.</p>
+            <br>
+            <br>
+            </div>    
+            <ul class="list inset">
+                <li><a href="#signin" class="icon user" style="text-align:center">Login with Facebook</a></li>
+            </ul>
         </div>
-        <!-- /upage-outer -->
-      </div>
-      <!-- /upage -->
+        
+        <!-- Login View -->
+        <div class="panel" title="Login" id="signin" data-footer="none">
+            <div style="text-align:center">
+            <br>
+            <br>
+            <p>This is space for login message</p>
+            <br>
+            <br>
+            </div>
+            <input name="username" type="text" placeholder="username" />
+            <input name="password" type="password" placeholder="password" />
+            <a class="button block green" href="#" id="login">Login with Facebook</a>
+        </div>
+        
+        <!-- Main App View -->
+        <div class="panel" title="Start" id="main" data-load="startApp">
+            <p>This is App page after user has signed in...</p>
+        </div>
+        
     </div>
-    <!-- /uwrap -->
-  </body>
 
+</div>
+</body>
 </html>
