@@ -119,13 +119,57 @@
         
         <!-- Main App View -->
         <div class="panel" title="Your moosic choice" id="main" data-load="startApp">
+            <script src="intelxdk.js"></script>
+            <script type="text/javascript" charset="utf-8" src="xhr.js"></script>      
+            <script type="application/javascript" src="app_framework/appframework.min.js"></script>
+            <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
+
             <p>Your projected mood is:</p>
             <center>
             <p>We suggest this song for your mood.</p>
                 
+            <script>
+              $(document).ready(function(){
+                var message = "I'm at PennApps and extremely sleep deprived.";
+                alert("message: " + message);
+
+                // replace all spaces in the message with plus signs
+                var find = ' ';
+                var re = new RegExp(find, 'g');
+                msg_str = message.replace(re, '+');
+
+                var key = "k6sTu56WlU39YVOkfZLpG2Odb48";
+                var url = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&version=1.01";
+
+                $.get(url, function(data) {
+                    var array = data;
+                    var mood = array[0];
+                    var array_str = array.toString();
+                    var mood_str = mood.toString();
+                    alert("mood_str: " + mood_str);
+                    alert("array_str: " + array_str);
+                    // do stuff with the mood
+                  }
+                );
+
+                /*
+                initRdio();
+                */
+              });
+
+              function initRdio() {
+                // TODO
+              }
+            </script>
                 
             <img src="img/play.png" id="playButton" class="playerBtn">
             <img src="img/pause.png" id="pauseButton" class="playerBtn">
+            <script>
+              $("#playButton").click(function() {
+                  alert("Handler for .click() called.");
+              });
+            </script>
+
         </div>
         
     </div>
