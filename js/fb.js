@@ -1,3 +1,4 @@
+
 document.addEventListener("intel.xdk.facebook.login",function(e){ 
    if (e.success === true) { 
      console.log("Facebook Log in Successful"); 
@@ -10,7 +11,9 @@ intel.xdk.facebook.login("publish_stream,publish_actions,offline_access");
 
 
 
+/*
 var facebookUserID = "me"; //me = the user currently logged into Facebook 
+
 document.addEventListener("intel.xdk.facebook.request.response",function(e) { 
   console.log("Facebook User Friends Data Returned"); 
   if (e.success == true) { 
@@ -21,4 +24,6 @@ document.addEventListener("intel.xdk.facebook.request.response",function(e) {
     document.removeEventListener("intel.xdk.facebook.request.response"); 
   } 
 },false); 
+
 intel.xdk.facebook.requestWithGraphAPI(facebookUserID + "/friends","GET",""); 
+*/

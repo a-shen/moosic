@@ -38,18 +38,30 @@
     <script>   
         $.ui.autoLaunch = false; 
         $.ui.backButtonText = "Back";
+        alert("js started");
     
         $(document).ready(function(){
+            alert("document ready");
             $.ui.launch();
             // setup signin and signup button events
             $("#login").on("click", function(){
+                alert("login clicked!!");
                 signIn();
             });
         });
                 
         function signIn(){
-            // sigin code here
-            $.ui.loadContent("main", null, null, "fade");
+            alert("signing in");
+            $.ajaxSetup({ cache: true });
+            $.getScript('//connect.facebook.net/en_UK/all.js', function(){
+              FB.init({
+                appId: '714007508644402',
+              });
+              $('#login,#feedbutton').removeAttr('disabled');
+              FB.getLoginStatus(updateStatusCallback);
+            });
+            $.ajaxSetup({}
+            // $.ui.loadContent("main", null, null, "fade");
         }
                 
         function signUp(){
