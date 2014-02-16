@@ -18,25 +18,27 @@
               input, textarea  { -webkit-user-select:text; }
     </style>
     <script src="intelxdk.js"></script>
-    <script type="text/javascript" charset="utf-8" src="xhr.js"></script>      
-    <script type="application/javascript" src="app_framework/appframework.min.js"></script>
-    <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
-      
-      <!-- Required if packaging to native app using Intel XDK -->    
-    <script src="intelxdk.js"></script>
-    <script src="xhr.js"></script>
+    <script type="text/javascript" charset="utf-8" src="xhr.js"></script>   
     <script>    
-        function onDeviceReady(){ 
-            $.ui.launch();
+        function onDeviceReady() {
             intel.xdk.device.hideSplashScreen();
+            setTimeout(function() {
+                $.ui.launch();
+            }, 50);
+            checkKeyValidity();
         }
         document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
     </script>
+
+    <script type="application/javascript" src="app_framework/appframework.min.js"></script>
+    <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
+    <script type="application/javascript" src="js/jquery.rdio.js"></script>
+      
+      <!-- Required if packaging to native app using Intel XDK -->    
     <!-- End basic stuff -->    
 
       
     <script>   
-        $.ui.autoLaunch = false; 
         $.ui.backButtonText = "Back";
     
         $(document).ready(function(){
@@ -74,6 +76,7 @@
     
               
 <body> 
+
 <div id="afui">
     
     <div id="content" style=""> 
@@ -94,7 +97,7 @@
             <img src="http://xdk-software.intel.com/images/intel_xdk_logo.png" id="masherylogo" class="logo">
             <br>
             <br>
-            <p>Moosic will detect how your feeling based on your latest Facebook status update and stream the perfect music to match your mood.</p>
+            <p>Moosic will detect how you're feeling based on your latest Facebook status update and stream the perfect music to match your mood.</p>
             <br>
             <br>
             </div>    
@@ -119,11 +122,6 @@
         
         <!-- Main App View -->
         <div class="panel" title="Your moosic choice" id="main" data-load="startApp">
-            <script src="intelxdk.js"></script>
-            <script type="text/javascript" charset="utf-8" src="xhr.js"></script>      
-            <script type="application/javascript" src="app_framework/appframework.min.js"></script>
-            <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
-            <script type="application/javascript" src="js/jquery.rdio.js"></script>
 
             <script>
               $(document).ready(function(){
@@ -165,7 +163,7 @@
                       }
                     });
                     alert("mood: " + mood);
-                    //processMood(mood);
+                    processMood(mood);
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
                     alert(textStatus, errorThrown);
@@ -174,26 +172,39 @@
               }
 
               function processMood(mood) {  // search for a song to fit the mood
+                //var rdio = new Rdio(["55afnqfejyetzwwzjjsjhn9q", "uUczWa2B8d"]);
+                alert("processMood called");
                 var rdio = new Rdio([RdioCredentials.RDIO_CONSUMER_KEY, RdioCredentials.RDIO_CONSUMER_SECRET]);
                 var callbackUrl = request.server.info.protocol + "://" + request.info.host + "/callback";
+                //alert("rdio? " + (rdio === undefined || rdio === null));
+                //alert("rdio: " + rdio.toString());
+                //alert("callbackUrl: " + callbackUrl.toString());
 
-                rdio.beginAuthentication(callbackUrl, function(err, authUrl) {
-              /*
-                  if (err) {
-                    alert(err);
-                    request.reply(new Error("Error beginning authentication"));
+                /*
+                All method calls are made as POST requests to http://api.rdio.com/1/. Arguments are sent as application/x-www-form-urlencoded, just like when a browser submits a form.
+                The name of the method is passed as the method argument. All of the data going into the API should be UTF-8 encoded, all of the data coming out of the API will be UTF-8 encoded. 
+                All calls must be OAuth signed. This is often referred to as “2-legged OAuth”, where a signature based on the arguments, a nonce, a timestamp and the consumer secret is passed
+                along with the request. Calls that act against a user’s data must be made with an OAuth access token. Read the OAuth documentation for more details.
+                */
+
+                var URL = "http://api.rdio.com/1/?query=" + mood;
+                $.ajax({
+                  type: "POST",
+                  dataType: "json",
+                  url: URL,
+                  data: "",
+                  contentType: 'application/json; charset=utf-8',
+                  success: function(data) {
+                    console.log("data: " + data.toString());
+                    /*
+                    $.each(data, function(key, val) {
+                    });
+                    */
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
                   }
-
-                  alert(successful so far);
-                  request.session.set('requestToken', {
-                    token: rdio.token[0],
-                    secret: rdio.token[1]
-                  });
-
-                  alert(rdio auth finished);
-                  request.reply.redirect(authUrl);
-              */
-                }
+                });
               }
 
               function initRdio() {
@@ -206,7 +217,6 @@
               <img src="img/pause.png" id="pauseButton" class="playerBtn">
             </div>
             
-            <script type="application/javascript" src="js/jquery.rdio.js"></script>
             <script>
                 $("#playButton").click(function() {
 
