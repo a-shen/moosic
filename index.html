@@ -32,7 +32,6 @@
 
     <script type="application/javascript" src="app_framework/appframework.min.js"></script>
     <script type="application/javascript" src="app_framework/appframework.ui.min.js"></script>
-    <script type="application/javascript" src="js/jquery.rdio.js"></script>
       
       <!-- Required if packaging to native app using Intel XDK -->    
     <!-- End basic stuff -->    
@@ -162,23 +161,23 @@
                         }
                       }
                     });
-                    alert("mood: " + mood);
+                    console.log("mood: " + mood);
                     processMood(mood);
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
-                    alert(textStatus, errorThrown);
+                    console.log(textStatus, errorThrown);
                   }
                 });
               }
 
               function processMood(mood) {  // search for a song to fit the mood
                 //var rdio = new Rdio(["55afnqfejyetzwwzjjsjhn9q", "uUczWa2B8d"]);
-                alert("processMood called");
+                console.log("processMood called");
                 var rdio = new Rdio([RdioCredentials.RDIO_CONSUMER_KEY, RdioCredentials.RDIO_CONSUMER_SECRET]);
                 var callbackUrl = request.server.info.protocol + "://" + request.info.host + "/callback";
-                //alert("rdio? " + (rdio === undefined || rdio === null));
-                //alert("rdio: " + rdio.toString());
-                //alert("callbackUrl: " + callbackUrl.toString());
+                //console.log("rdio? " + (rdio === undefined || rdio === null));
+                //console.log("rdio: " + rdio.toString());
+                //console.log("callbackUrl: " + callbackUrl.toString());
 
                 /*
                 All method calls are made as POST requests to http://api.rdio.com/1/. Arguments are sent as application/x-www-form-urlencoded, just like when a browser submits a form.
@@ -213,14 +212,13 @@
             </script>
                 
             <div id="player">
-              <img src="img/play.png" id="playButton" class="playerBtn">
-              <img src="img/pause.png" id="pauseButton" class="playerBtn">
+              <iframe id=rdioframe src="http://www.rdio.com/people/amyshen01/playlists/8254682/Moosic_playlist_for_2/16/14/"></iframe>
             </div>
             
             <script>
                 $("#playButton").click(function() {
 
-                    alert("play button called");
+                    console.log("play button called");
 
                     /*
                     var key = "k6sTu56WlU39YVOkfZLpG2Odb48";
@@ -237,8 +235,8 @@
                         var mood = array[0];
                         var array_str = array.toString();
                         var mood_str = mood.toString();
-                        alert("mood_str: " + mood_str);
-                        alert("array_str: " + array_str);
+                        console.log("mood_str: " + mood_str);
+                        console.log("array_str: " + array_str);
                         // do stuff with the mood
                       }
                     );
@@ -248,7 +246,7 @@
                 });
                 
                 $('#pauseButton').click(function() {
-                    alert("pause button called");
+                    console.log("pause button called");
                     $('#player').rdio().pause();
                 });
 

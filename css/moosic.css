@@ -8,6 +8,11 @@
     height: 200px;
 }
 
+#rdioframe {
+    width: 1000px;
+    height: 800px;
+}
+
 #pauseButton {
     visibility: hidden;
 }
