@@ -127,8 +127,13 @@
 
             <script>
               $(document).ready(function(){
-                var message = "My boyfriend just dumped me on valentine's day :'(";
-                alert("message: " + message);
+                var message1 = "Built my first snowman AND my first Intel XDK app yesterday! PennApps was the best birthday gift ever.";
+                processMessage(message1);
+                var message2 = "Just discovered that I'm allergic to chocolate. Fml.";
+                processMessage(message2);
+              });
+
+              function processMessage(message) {  // extract mood from status message & call processMood()
 
                 // replace all spaces in the message with plus signs
                 var find = ' ';
@@ -145,7 +150,6 @@
                   data: "",
                   contentType: 'application/json; charset=utf-8',
                   success: function(data) {
-                    alert("success");
                     var mood = "happy";
                     $.each(data, function(key, val) {
                       if (key === "cls1") {  // val = (prob of happy, prob of upset)
@@ -161,17 +165,36 @@
                       }
                     });
                     alert("mood: " + mood);
-
-                    //var obj = $.parseJSON(data);
-                    //alert( obj.toString() );
-
-                    // do stuff with the mood
+                    //processMood(mood);
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
                     alert(textStatus, errorThrown);
                   }
                 });
-              });
+              }
+
+              function processMood(mood) {  // search for a song to fit the mood
+                var rdio = new Rdio([RdioCredentials.RDIO_CONSUMER_KEY, RdioCredentials.RDIO_CONSUMER_SECRET]);
+                var callbackUrl = request.server.info.protocol + "://" + request.info.host + "/callback";
+
+                rdio.beginAuthentication(callbackUrl, function(err, authUrl) {
+              /*
+                  if (err) {
+                    alert(err);
+                    request.reply(new Error("Error beginning authentication"));
+                  }
+
+                  alert(successful so far);
+                  request.session.set('requestToken', {
+                    token: rdio.token[0],
+                    secret: rdio.token[1]
+                  });
+
+                  alert(rdio auth finished);
+                  request.reply.redirect(authUrl);
+              */
+                }
+              }
 
               function initRdio() {
                 // TODO
@@ -182,12 +205,14 @@
               <img src="img/play.png" id="playButton" class="playerBtn">
               <img src="img/pause.png" id="pauseButton" class="playerBtn">
             </div>
-                
             
+            <script type="application/javascript" src="js/jquery.rdio.js"></script>
             <script>
                 $("#playButton").click(function() {
+
                     alert("play button called");
 
+                    /*
                     var key = "k6sTu56WlU39YVOkfZLpG2Odb48";
                     var URL = "http://uclassify.com/browse/prfekt/Mood/ClassifyText?readkey=" + key + "&text=" + msg_str + "&version=1.01";  // TODO UPDATE URL
 
@@ -207,8 +232,9 @@
                         // do stuff with the mood
                       }
                     );
+                    */
 
-                    $('#player').rdio().play(songId);
+                    $('#player').rdio().play("r212607");
                 });
                 
                 $('#pauseButton').click(function() {
